@@ -6,6 +6,8 @@ import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
 import {LoadingOutlined} from "@ant-design/icons";
+import Announcement from "./components/homeComponents/Announcement";
+import Footer from "./components/footer/Footer"
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
@@ -76,9 +78,10 @@ const App = () => {
   return (
     <Suspense fallback={
       <div className="col text-center p-5 text-primary">
-        __ECOMMERCE WORLD <LoadingOutlined className="h4 p-3 text-danger" /> ___BY SHIVANSH MEHTA
+       <LoadingOutlined className="h4 p-3 text-danger" /> First Impression
       </div>
     }>
+      <Announcement />
       <Header />
       <ToastContainer />
       <SideDrawer />
@@ -116,6 +119,7 @@ const App = () => {
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
       </Switch>
+      <Footer />
     </Suspense>
   );
 };

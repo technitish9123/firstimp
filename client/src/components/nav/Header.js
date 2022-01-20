@@ -14,6 +14,7 @@ import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Search from "../forms/Search";
+import "./nav.css";
 
 const { SubMenu, Item } = Menu;
 
@@ -54,6 +55,12 @@ const Header = () => {
           </Badge>
         </Link>
       </Item>
+      {/* <Item key="logo" className="nav_logo_container ">
+        <Link to="/">
+          {" "}
+          <h2 className="nav_logo  ">First Impression</h2>
+        </Link>
+      </Item> */}
 
       {!user && (
         <Item key="register" icon={<UserAddOutlined />} className="float-right">

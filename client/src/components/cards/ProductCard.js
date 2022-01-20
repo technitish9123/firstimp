@@ -47,14 +47,15 @@ const ProductCard = ({ product }) => {
     });
   };
 
-  const { images, description, slug, title } = product;
+  const { images, description, slug, title, price } = product;
+  console.log(product);
   return (
     <>
-      {product && product.ratings && product.ratings.length > 0 ? (
+      {/* {product && product.ratings && product.ratings.length > 0 ? (
         showAverage(product)
       ) : (
         <div className="text-center pt-1 pb-3">No Rating Yet.</div>
-      )}
+      )} */}
       <Card
         cover={
           <img
@@ -81,9 +82,11 @@ const ProductCard = ({ product }) => {
           </>,
         ]}
       >
-        <Meta
+
+         <Meta
           title={title}
-          description={`${description && description.substring(0, 30)}...`}
+          description= {"Price"+" "+ price}
+          // description={`${description && description.substring(0, 30)}...`}
         />
       </Card>
     </>

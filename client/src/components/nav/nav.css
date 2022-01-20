@@ -1,0 +1,19 @@
+
+.nav_logo_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    text-decoration: none;
+    float: none;
+   
+  
+}
+.nav_logo{
+    font-family: "Mistral Regular";
+    color: black;
+    font-weight: 400;
+    font-size:35px ;
+    text-decoration: none;
+    
+}
