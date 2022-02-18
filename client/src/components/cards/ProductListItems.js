@@ -20,6 +20,7 @@ const ProductListItems = ({ product }) => {
         <span className="label label-default label-pill pull-xs-right">
         ₹ {price}
         </span>
+       
       </li>
 
       {category && (
@@ -34,7 +35,7 @@ const ProductListItems = ({ product }) => {
         </li>
       )}
 
-      {subs && (
+      {/* {subs && (
         <li className="list-group-item">
           Sub Categories
           {subs.map((s) => (
@@ -47,7 +48,7 @@ const ProductListItems = ({ product }) => {
             </Link>
           ))}
         </li>
-      )}
+      )} */}
 
       <li className="list-group-item">
         Shipping{" "}
@@ -69,7 +70,23 @@ const ProductListItems = ({ product }) => {
           {brand}
         </span>
       </li>
+      
+        
+      <li className="list-group-item">
+      Instock{
+        quantity>0?
+        <span className="label label-default label-pill pull-xs-right">
+        Yes
+      </span>:
+       <span className="label label-default label-pill pull-xs-right">
+       No
+     </span>
+      }
+     
+    </li>
+      
 
+{/* 
       <li className="list-group-item">
         Available{" "}
         <span className="label label-default label-pill pull-xs-right">
@@ -82,7 +99,7 @@ const ProductListItems = ({ product }) => {
         <span className="label label-default label-pill pull-xs-right">
           {sold}
         </span>
-      </li>
+      </li> */}
     </ul>
   );
 };

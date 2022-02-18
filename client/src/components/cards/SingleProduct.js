@@ -18,12 +18,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { addItemToWishlist } from "../../functions/user";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./singleProduct.css"
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, rating, onStarClick }) => {
-  const { title, description, slug, images, _id } = product;
+  const { title, description, slug, images, _id,brand,width,material , application, design, style, instruction} = product;
 
   const [tooltip, setTooltip] = useState("");
   const [wishlistTooltip, setWishlistTooltip] = useState("Add to Wishlist");
@@ -73,7 +74,7 @@ const SingleProduct = ({ product, rating, onStarClick }) => {
 
   return (
     <>
-      <div className="col-md-7">
+      <div className="col-md-7 display-1">
         {images && images.length ? (
           <Carousel infiniteLoop autoPlay showArrows={true}>
             {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
@@ -91,16 +92,28 @@ const SingleProduct = ({ product, rating, onStarClick }) => {
         )}
 
         <Tabs type="card">
-          <TabPane tab="Description" key="1">
+         
+          <TabPane tab="Specification" key="1">
+           <div className="specification">
+             <span className="specification_title"> Width:</span>{width} cm<br />
+             <span className="specification_title"> Brand:  </span>{brand} <br />
+             <span className="specification_title"> Fabric Content:</span>{material} <br />
+             <span className="specification_title"> Application:</span>{application} <br />
+             <span className="specification_title"> Design:</span>{design} <br />
+             <span className="specification_title"> Style:</span>{style} <br />
+             <span className="specification_title"> Instruction:</span>{instruction} <br />
+           </div>
+          </TabPane>
+          <TabPane tab="Description" key="2">
             {description && description}
           </TabPane>
-          <TabPane tab="More" key="2">
+          <TabPane tab="More" key="3">
             Call Us on xxx999xx for more updates on the product
           </TabPane>
         </Tabs>
       </div>
       <div className="col-md-5">
-        <h1 className="bg-info p-3 text-white">{title}</h1>
+        <h2 className=" p-3  ">{title}</h2>
 
         {/*rating */}
         {product && product.ratings && product.ratings.length > 0 ? (

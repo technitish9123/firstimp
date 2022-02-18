@@ -21,7 +21,9 @@
     "mongoose": "^5.10.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
+    "razorpay": "^2.8.0",
     "slugify": "^1.4.5",
-    "stripe": "^8.148.0"
+    "stripe": "^8.148.0",
+    "uniqid": "^5.4.0"
   }
 }

@@ -17,6 +17,8 @@ const { SubMenu } = Menu;
 const colors = ["Black", "Brown", "Silver", "White", "Blue"];
 const brands = ["Apple", "Microsoft", "Samsung", "Lenovo", "ASUS"];
 
+
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -160,7 +162,7 @@ const Shop = () => {
     </div>
   );
 
-  //6. load products based on subs
+  //7. load products based on subs
   const showSubs = () => (
     <div className="pl-4 pr-4 pb-2">
       {subs.map((s) => (
@@ -216,6 +218,47 @@ const Shop = () => {
 
     fetchProducts({ color });
   };
+
+  
+  //load Products ased on brand
+  const showBrands = () => {
+    return (
+      <div className="pb-2 pl-4 pr-5">
+        {brands.map((c) => (
+         <div key={c}>
+         <Checkbox
+           className="pb-2 pl-4 pr-4"
+           value={c.name}
+           onChange={handleCheck}
+           name="category"
+          
+         >
+           {c.name}
+         </Checkbox>
+         <br />
+       </div>
+
+        ))}
+      </div>
+
+      
+    );
+  };
+  console.log(brands);
+
+  const handleBrandClick = (brand) => {
+    dispatcherText();
+    setPrice([]);
+    setCategoryIds([]);
+    setStar(0);
+    setSub("");
+    setColor();
+    setBrand(brand)
+
+    fetchProducts({ brand });
+  };
+
+  
 
   return (
     <div className="container-fluid">
@@ -284,6 +327,17 @@ const Shop = () => {
               }
             >
               <div style={{ marginTop: "-10px" }}>{showColors()}</div>
+            </SubMenu>
+            {/* brands */}
+            <SubMenu
+              key="6"
+              title={
+                <span className="h6">
+                  <StarOutlined /> brands
+                </span>
+              }
+            >
+              <div style={{ marginTop: "-10px" }}>{showBrands()}</div>
             </SubMenu>
           </Menu>
         </div>

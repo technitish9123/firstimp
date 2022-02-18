@@ -21,10 +21,24 @@ const initialState = {
   shipping: "",
   quantity: "",
   images: [],
+  gst:"",
   colors: ["Black", "Brown", "Silver", "White", "Blue"],
-  brands: ["Apple", "Microsoft", "Samsung", "Lenovo", "ASUS"],
+  // brands: ["Apple", "Microsoft", "Samsung", "Lenovo", "ASUS"],
   color: "",
-  brand: "",
+  brands: "",
+  material:"",
+  property:"",
+  design:"",
+  style:"",
+  application:"",
+  instruction:"",
+  width:"",
+  length:"",
+  weight:"",
+  repeatlength:"",
+  rollLength:"",
+
+
 };
 
 const ProductCreate = () => {

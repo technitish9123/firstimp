@@ -19,7 +19,7 @@ const Invoice = ({ order }) => (
           ~ {new Date().toLocaleString()} ~{" "}
         </Text>
         <Text style={styles.title}>Order Invoice</Text>
-        <Text style={styles.author}>Ecommerce-World By Shivansh Mehta</Text>
+        <Text style={styles.author}>First impression</Text>
         <Text style={styles.subtitle}>Order Summary</Text>
 
         <Table>

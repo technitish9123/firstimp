@@ -15,6 +15,7 @@ const statusOptions = [
 
 const Orders = ({ orders, handleStatusChange }) => {
   const [option, setOptions] = useState("Not Processed");
+  console.log(orders);
 
   const showOrderInTable = (order) => (
     <table className="table table-bordered">
@@ -26,6 +27,7 @@ const Orders = ({ orders, handleStatusChange }) => {
           <th scope="col">Color</th>
           <th scope="col">Quantity</th>
           <th scope="col">Shipping</th>
+         
         </tr>
       </thead>
 
@@ -33,12 +35,14 @@ const Orders = ({ orders, handleStatusChange }) => {
         {order.products.map((p, i) => (
           <tr key={i}>
             <td>
+             
               <strong>{p.product.title}</strong>
             </td>
             <td>{p.product.price}</td>
             <td>{p.product.brand}</td>
             <td>{p.product.color}</td>
             <td>{p.count}</td>
+           
             <td>
               {p.product.shipping === "Yes" ? (
                 <CheckCircleOutlined style={{ color: "green" }} />
@@ -49,6 +53,7 @@ const Orders = ({ orders, handleStatusChange }) => {
           </tr>
         ))}
       </tbody>
+    
     </table>
   );
 
@@ -67,7 +72,12 @@ const Orders = ({ orders, handleStatusChange }) => {
       <div key={order._id}>
         <div className="m-5 p-3 card">
           {/* <ShowPaymentInfo order={order} /> */}
-
+          <div className=" p-3">
+          <div>Name:</div> <br/>
+            <div>Phone Number:</div> <br/>
+            <div>Email:</div><br/>
+            <div>Shipping Address:</div> <br/>
+          </div>
           {showOrderInTable(order)}
           <div className="row">
             <div className="col">

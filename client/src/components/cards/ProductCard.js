@@ -73,7 +73,7 @@ const ProductCard = ({ product }) => {
               <a onClick={() => handleAddToCart()}>
                 <ShoppingCartOutlined className="text-danger" /> <br />
                 {product.quantity === 0 ? (
-                  <div className="text-danger">Out Of Stock</div>
+                  <div className="text-danger ">Out Of Stock</div>
                 ) : (
                   "Add to Cart"
                 )}
@@ -85,7 +85,7 @@ const ProductCard = ({ product }) => {
 
          <Meta
           title={title}
-          description= {"Price"+" "+ price}
+           description= {<b>₹{price}</b>}
           // description={`${description && description.substring(0, 30)}...`}
         />
       </Card>

@@ -10,3 +10,14 @@ export const createPaymentsIntent = async (authtoken, coupon) =>
       },
     }
   );
+
+  export const createPaymentsIntents = async (authtoken, coupon) =>
+  await axios.post(
+    `${process.env.REACT_APP_API}/create-payment-integrations`,
+    {couponApplied: coupon},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );

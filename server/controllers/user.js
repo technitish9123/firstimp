@@ -55,15 +55,16 @@ exports.getUserCart = async (req, res) => {
   let user = await User.findOne({ email: req.user.email });
 
   let cart = await Cart.findOne({ orderedBy: user._id })
-    .populate("products.product", "_id title price totalAfterDiscount")
+    .populate("products.product", "_id title price gst totalAfterDiscount")
     .exec();
 
-  const { totalAfterDiscount, products, cartTotal } = cart;
+  const { totalAfterDiscount, products, cartTotal, } = cart;
 
   res.json({
     totalAfterDiscount,
     products,
     cartTotal,
+    
   });
 };
 
@@ -85,6 +86,7 @@ exports.saveAddress = async (req, res) => {
     res.json({ ok: true });
   }
 };
+
 
 exports.applyCouponDiscount = async (req, res) => {
   const { coupon } = req.body;
@@ -114,6 +116,7 @@ exports.applyCouponDiscount = async (req, res) => {
   res.json({ discount: totalAfterDiscount });
 };
 
+
 exports.createOrder = async (req, res) => {
   const { paymentIntent } = req.body;
   console.log(paymentIntent);
@@ -126,6 +129,7 @@ exports.createOrder = async (req, res) => {
     products,
     paymentIntent,
     orderedBy: user._id,
+    // shippingInfo,
   }).save();
 
   console.log(newOrder);

@@ -120,6 +120,7 @@ const Checkout = ({ history }) => {
         <h4>Delivery Address</h4>
         <br />
         <br />
+      
         <ReactQuill theme="snow" value={address} onChange={setAddress} />
         <button
           className="btn btn-secondary btn-raised mt-2 btn-block"
@@ -149,11 +150,20 @@ const Checkout = ({ history }) => {
                       {p.product.title}
                     </p>
                     <span className="label label-default label-pill pull-xs-right cart-details">
-                      ₹ {p.product.price.toLocaleString("en-IN")} x {p.count} = ₹{" "}
-                      {(p.product.price * p.count).toLocaleString("en-IN")}
-                    </span>
+                      ₹ {p.product.price -(p.product.price* p.product.gst/100)}x {p.count} = ₹{" "}
+                      {((p.product.price -(p.product.price* p.product.gst/100)) * p.count).toLocaleString("en-IN")}
+                      {/* {console.log(p.product.gst)} */}<br />
+                      <span> +</span><br />
+                      <span className=" product_total ">GST ({p.product.gst}%) : {" "} ₹{(p.product.price* p.product.gst/100)*p.count}</span><br /> <br />
+                      Total = {p.product.price*p.count }
+                      
+                    </span><br />
+                  
+                    
                   </li>
+                  
                 ))}
+                 
               </ul>
             </div>
             <hr />

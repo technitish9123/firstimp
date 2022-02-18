@@ -27,6 +27,10 @@ const productSchema = new mongoose.Schema({
     trim: true,
     maxlength: 32,
   },
+  gst:{
+    type:String,
+    required:true,
+  },
   category: {
     type: ObjectId,
     ref: "Category",
@@ -57,7 +61,40 @@ const productSchema = new mongoose.Schema({
   },
   brand:{
       type: String,
-      enum: ["Apple", "Microsoft", "Samsung", "Lenovo", "ASUS"]
+     
+  },
+  material:{
+    type:String,
+  },
+  property:{
+    type:String,
+  },
+  design:{
+    type:String,
+  },
+  style:{
+    type:String,
+  },
+  application:{
+    type:String,
+  },
+  instruction:{
+
+  },
+  width:{
+    type:Number,
+  },
+  length:{
+    type:Number,
+  },
+  weight:{
+    type:Number,
+  },
+  repeatLength:{
+    type:Number,
+  },
+  rollLength:{
+    type:Number,
   },
   ratings:[{
         star:Number,
