@@ -12,7 +12,7 @@ const app = express();
 
 // db
 mongoose
-  .connect((process.env.DATABASE).toString(), {
+  .connect((process.env.DATABASE), {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -29,7 +29,9 @@ app.use(cors());
 app.disable('etag');
 
 // routes middleware
-readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
+
+readdirSync("./routes/").map((r) => app.use("/api", require("./routes/" + r)));
+
 
 // port
 const port = process.env.PORT || 8000;

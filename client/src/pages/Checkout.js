@@ -12,7 +12,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const Checkout = ({ history }) => {
-  const { user, pageState } = useSelector((state) => ({ ...state }));
+  const { user, pageState, shippingAdd } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
@@ -20,6 +20,9 @@ const Checkout = ({ history }) => {
   const [address, setAddress] = useState("");
   const [addressSaved, setAddressSaved] = useState(false);
   const [coupon, setCoupon] = useState("");
+  const [name, setName] = useState("");
+  const [mobileNum, setMobileNum] = useState("");
+  const [email, setEmail] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [discountErr, setDiscountErr] = useState("");
   const [show, setShow] = useState(false);
@@ -31,6 +34,19 @@ const Checkout = ({ history }) => {
       setTotal(res.data.cartTotal);
     });
   }, []);
+
+  //setting shipping adress in store
+  let shippingaddd={name:name, mobileNum:mobileNum, email:email, add:address};
+  const handleShippingAdd=()=>{
+    if (typeof window!== undefined){
+      localStorage.setItem("shippingAddress", JSON.stringify(shippingaddd))
+    }
+    dispatch({
+      type: "SHIPPING_ADDRESS",
+      payload:shippingaddd
+    });
+   
+  }
 
   const handleEmptyCart = () => {
     if (typeof window !== undefined) {
@@ -54,8 +70,9 @@ const Checkout = ({ history }) => {
   };
 
   const saveAddressToDb = () => {
-    saveUserAddress(user.token, address).then((res) => {
+    saveUserAddress(user.token,  address).then((res) => {
       if (res.data.ok) {
+        
         setAddressSaved(true);
         toast.success("Address Saved Successully");
       }
@@ -107,27 +124,56 @@ const Checkout = ({ history }) => {
   );
 
   const handlePaymentSession = () => {
-    history.push("/payment")
+    history.push("/payment");
     dispatch({
       type: "SESSION",
-      payload: true
-    })
-  }
+      payload: true,
+    });
+  };
 
   return (
     <div className="row">
       <div className="col-md-6 p-5">
-        <h4>Delivery Address</h4>
-        <br />
-        <br />
-      
-        <ReactQuill theme="snow" value={address} onChange={setAddress} />
+      <h4>Shipping Address</h4>
+        <div className="p-2 mt-2">
+          <Input
+            type="text"
+            className=""
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+          />
+        </div>
+        <div className="p-2 mt-2">
+          <Input
+            type="Number"
+            className=""
+             value={mobileNum}
+            onChange={(e) => setMobileNum(e.target.value)}
+            placeholder="Mobile Number"
+          />
+        </div>
+        <div className="p-2 mt-2 mb-2">
+          <Input
+            type="email"
+            className=""
+            //  value={}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email Id"
+          />
+        </div>
+     
+        {/* <ReactQuill placeholder="address" theme="snow" value={address} onChange={setAddress} /> */}
+       <textarea   onChange={(e) => setAddress(e.target.value)} />
+{console.log(address)}
         <button
           className="btn btn-secondary btn-raised mt-2 btn-block"
           onClick={saveAddressToDb}
         >
           Save Delivery Address
         </button>
+
+        <button onClick={handleShippingAdd}>dispatch shipping adress</button>
         <hr />
         <h4>Got Coupon?</h4>
         <br />
@@ -150,20 +196,29 @@ const Checkout = ({ history }) => {
                       {p.product.title}
                     </p>
                     <span className="label label-default label-pill pull-xs-right cart-details">
-                      ₹ {p.product.price -(p.product.price* p.product.gst/100)}x {p.count} = ₹{" "}
-                      {((p.product.price -(p.product.price* p.product.gst/100)) * p.count).toLocaleString("en-IN")}
-                      {/* {console.log(p.product.gst)} */}<br />
-                      <span> +</span><br />
-                      <span className=" product_total ">GST ({p.product.gst}%) : {" "} ₹{(p.product.price* p.product.gst/100)*p.count}</span><br /> <br />
-                      Total = {p.product.price*p.count }
-                      
-                    </span><br />
-                  
-                    
+                      ₹{" "}
+                      {p.product.price -
+                        (p.product.price * p.product.gst) / 100}
+                      x {p.count} = ₹{" "}
+                      {(
+                        (p.product.price -
+                          (p.product.price * p.product.gst) / 100) *
+                        p.count
+                      ).toLocaleString("en-IN")}
+                      {/* {console.log(p.product.gst)} */}
+                      <br />
+                      <span> +</span>
+                      <br />
+                      <span className=" product_total ">
+                        GST ({p.product.gst}%) : ₹
+                        {((p.product.price * p.product.gst) / 100) * p.count}
+                      </span>
+                      <br /> <br />
+                      Total = {p.product.price * p.count}
+                    </span>
+                    <br />
                   </li>
-                  
                 ))}
-                 
               </ul>
             </div>
             <hr />

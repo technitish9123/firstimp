@@ -257,11 +257,12 @@ const ProductUpdateForm = ({
       <div className="form-group">
         <label>Color</label>
         <select
+        multiple
           value={color}
           name="color"
           className="form-control"
           onChange={handleChange}
-        >
+        >{console.log(colors)}
           {colors.map((c) => (
             <option key={c} value={c}>
               {c}

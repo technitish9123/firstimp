@@ -113,7 +113,7 @@ const Background = () => {
           </ul>
         </div>
       <div> 
-        <LeftNav />
+        {/* <LeftNav /> */}
       </div>
         
       </div>

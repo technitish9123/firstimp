@@ -73,10 +73,10 @@ const Orders = ({ orders, handleStatusChange }) => {
         <div className="m-5 p-3 card">
           {/* <ShowPaymentInfo order={order} /> */}
           <div className=" p-3">
-          <div>Name:</div> <br/>
-            <div>Phone Number:</div> <br/>
-            <div>Email:</div><br/>
-            <div>Shipping Address:</div> <br/>
+          <div>Name: {order.paymentIntent.shippingAdd.name}</div> <br/>
+            <div>Mobile Number: {order.paymentIntent.shippingAdd.mobileNum}</div> <br/>
+            <div>Email: {order.paymentIntent.shippingAdd.email}</div><br/>
+            <div>Shipping Address: {order.paymentIntent.shippingAdd.add}</div> <br/>
           </div>
           {showOrderInTable(order)}
           <div className="row">

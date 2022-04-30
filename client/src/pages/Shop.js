@@ -14,7 +14,156 @@ import Star from "../components/forms/Star";
 
 const { SubMenu } = Menu;
 
-const colors = ["Black", "Brown", "Silver", "White", "Blue"];
+const colors = [
+  "AliceBlue",
+  "AntiqueWhite",
+  "Aqua",
+  "Aquamarine",
+  "Azure",
+  "Beige",
+  "Bisque",
+  "Black",
+  "BlanchedAlmond",
+  "Blue",
+  "BlueViolet",
+  "Brown",
+  "BurlyWood",
+  "CadetBlue",
+  "Chartreuse",
+  "Chocolate",
+  "Coral",
+  "CornflowerBlue",
+  "Cornsilk",
+  "Crimson",
+  "Cyan",
+  "DarkBlue",
+  "DarkCyan",
+  "DarkGoldenRod",
+  "DarkGray",
+  "DarkGrey",
+  "DarkGreen",
+  "DarkKhaki",
+  "DarkMagenta",
+  "DarkOliveGreen",
+  "DarkOrange",
+  "DarkOrchid",
+  "DarkRed",
+  "DarkSalmon",
+  "DarkSeaGreen",
+  "DarkSlateBlue",
+  "DarkSlateGray",
+  "DarkSlateGrey",
+  "DarkTurquoise",
+  "DarkViolet",
+  "DeepPink",
+  "DeepSkyBlue",
+  "DimGray",
+  "DimGrey",
+  "DodgerBlue",
+  "FireBrick",
+  "FloralWhite",
+  "ForestGreen",
+  "Fuchsia",
+  "Gainsboro",
+  "GhostWhite",
+  "Gold",
+  "GoldenRod",
+  "Gray",
+  "Grey",
+  "Green",
+  "GreenYellow",
+  "HoneyDew",
+  "HotPink",
+  "IndianRed",
+  "Indigo",
+  "Ivory",
+  "Khaki",
+  "Lavender",
+  "LavenderBlush",
+  "LawnGreen",
+  "LemonChiffon",
+  "LightBlue",
+  "LightCoral",
+  "LightCyan",
+  "LightGoldenRodYellow",
+  "LightGray",
+  "LightGrey",
+  "LightGreen",
+  "LightPink",
+  "LightSalmon",
+  "LightSeaGreen",
+  "LightSkyBlue",
+  "LightSlateGray",
+  "LightSlateGrey",
+  "LightSteelBlue",
+  "LightYellow",
+  "Lime",
+  "LimeGreen",
+  "Linen",
+  "Magenta",
+  "Maroon",
+  "MediumAquaMarine",
+  "MediumBlue",
+  "MediumOrchid",
+  "MediumPurple",
+  "MediumSeaGreen",
+  "MediumSlateBlue",
+  "MediumSpringGreen",
+  "MediumTurquoise",
+  "MediumVioletRed",
+  "MidnightBlue",
+  "MintCream",
+  "MistyRose",
+  "Moccasin",
+  "NavajoWhite",
+  "Navy",
+  "OldLace",
+  "Olive",
+  "OliveDrab",
+  "Orange",
+  "OrangeRed",
+  "Orchid",
+  "PaleGoldenRod",
+  "PaleGreen",
+  "PaleTurquoise",
+  "PaleVioletRed",
+  "PapayaWhip",
+  "PeachPuff",
+  "Peru",
+  "Pink",
+  "Plum",
+  "PowderBlue",
+  "Purple",
+  "RebeccaPurple",
+  "Red",
+  "RosyBrown",
+  "RoyalBlue",
+  "SaddleBrown",
+  "Salmon",
+  "SandyBrown",
+  "SeaGreen",
+  "SeaShell",
+  "Sienna",
+  "Silver",
+  "SkyBlue",
+  "SlateBlue",
+  "SlateGray",
+  "SlateGrey",
+  "Snow",
+  "SpringGreen",
+  "SteelBlue",
+  "Tan",
+  "Teal",
+  "Thistle",
+  "Tomato",
+  "Turquoise",
+  "Violet",
+  "Wheat",
+  "White",
+  "WhiteSmoke",
+  "Yellow",
+  "YellowGreen",
+];
 const brands = ["Apple", "Microsoft", "Samsung", "Lenovo", "ASUS"];
 
 
@@ -148,7 +297,7 @@ const Shop = () => {
     setStar(num);
     setSub("");
     setColor("");
-    console.log(num);
+    //console.log(num);
     fetchProducts({ stars: num });
   };
 
@@ -191,21 +340,42 @@ const Shop = () => {
   //load Products ased on colors
   const showColors = () => {
     return (
-      <div className="pb-2 pl-4 pr-5">
-        {colors.map((c) => (
-          <div key={c} className="m-2">
+      <div className="pb-2 pl-4 pr-5 ">
+        
+      
+        {/* {colors.map((c) => (
+          <div key={c} className="m-2 ">
             <Button
               block
-              style={{ background: c.toLowerCase() }}
+              style={{ background: c.toLowerCase(), width:"1rem" }}
               onClick={() => handleColorClick(c)}
             >
-              {c.name}{" "}
+             { <div className="ml-4">{c}</div>}
+            </Button>
+            <br />
+          </div>
+        ))} */}
+
+{colors.map((c) => (
+          <div key={c} className="m-2 ">
+            <Button
+            multiple
+              
+              style={{ background: c.toLowerCase(), width:"1rem" }}
+              onClick={() => handleColorClick(c)}
+            >
+             { <div className="ml-4">{c}</div>}
             </Button>
             <br />
           </div>
         ))}
+
+
+
       </div>
     );
+
+    
   };
 
   const handleColorClick = (color) => {
@@ -221,42 +391,42 @@ const Shop = () => {
 
   
   //load Products ased on brand
-  const showBrands = () => {
-    return (
-      <div className="pb-2 pl-4 pr-5">
-        {brands.map((c) => (
-         <div key={c}>
-         <Checkbox
-           className="pb-2 pl-4 pr-4"
-           value={c.name}
-           onChange={handleCheck}
-           name="category"
+  // const showBrands = () => {
+  //   return (
+  //     <div className="pb-2 pl-4 pr-5">
+  //       {brands.map((c) => (
+  //        <div key={c}>
+  //        <Checkbox
+  //          className="pb-2 pl-4 pr-4"
+  //          value={c.name}
+  //          onChange={handleCheck}
+  //          name="category"
           
-         >
-           {c.name}
-         </Checkbox>
-         <br />
-       </div>
+  //        >
+  //          {c.name}
+  //        </Checkbox>
+  //        <br />
+  //      </div>
 
-        ))}
-      </div>
+  //       ))}
+  //     </div>
 
       
-    );
-  };
-  console.log(brands);
+  //   );
+  // };
+  //console.log(brands);
 
-  const handleBrandClick = (brand) => {
-    dispatcherText();
-    setPrice([]);
-    setCategoryIds([]);
-    setStar(0);
-    setSub("");
-    setColor();
-    setBrand(brand)
+  // const handleBrandClick = (brand) => {
+  //   dispatcherText();
+  //   setPrice([]);
+  //   setCategoryIds([]);
+  //   setStar(0);
+  //   setSub("");
+  //   setColor();
+  //   setBrand(brand)
 
-    fetchProducts({ brand });
-  };
+  //   fetchProducts({ brand });
+  // };
 
   
 
@@ -275,7 +445,7 @@ const Shop = () => {
                   className="ml-4 mr-4"
                   tipFormatter={(v) => ` ₹ ${v}`}
                   range={{ draggableTrack: true }}
-                  max="499999"
+                  max="20000"
                   value={price}
                   onChange={handleSlider}
                 />
@@ -326,10 +496,10 @@ const Shop = () => {
                 </span>
               }
             >
-              <div style={{ marginTop: "-10px" }}>{showColors()}</div>
+              <div style={{ marginTop: "-10px" , maxHeight:"15rem", overflow:"scroll"}}>{showColors()}</div>
             </SubMenu>
             {/* brands */}
-            <SubMenu
+            {/* <SubMenu
               key="6"
               title={
                 <span className="h6">
@@ -338,7 +508,7 @@ const Shop = () => {
               }
             >
               <div style={{ marginTop: "-10px" }}>{showBrands()}</div>
-            </SubMenu>
+            </SubMenu> */}
           </Menu>
         </div>
         <div className="col-md-9">

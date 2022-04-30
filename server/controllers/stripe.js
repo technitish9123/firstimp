@@ -24,14 +24,15 @@ exports.createPaymentsInteg = async (req, res) => {
   } else {
     finalAmount = (cartTotal * 100)
   }
-
+let userAdd= user.address
   //discount total whether coupon applied
 
   //payments intent by applying order amount and currency
-
+console.log("adressssssssssssssss", user.address);
   let createPaymentIntent = await stripe.paymentIntents.create({
     amount: finalAmount,
     currency: "inr",
+   
   });
 
   res.send({

@@ -3,6 +3,8 @@ const User = require("../models/user");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
+const { mailgun,
+  payOrderEmailTemplate}= require( "../utils.js")
 
 exports.userCart = async (req, res) => {
   console.log(req.body.cart);
@@ -122,16 +124,40 @@ exports.createOrder = async (req, res) => {
   console.log(paymentIntent);
 
   let user = await User.findOne({ email: req.user.email }).exec();
-
+  //console.log("userdetail",user)
   const { products } = await Cart.findOne({ orderedBy: user._id }).exec();
 
   let newOrder = await new Order({
     products,
     paymentIntent,
     orderedBy: user._id,
-    // shippingInfo,
+    userEmail: user.email,
+    userAddress: user.address
   }).save();
 
+  if(paymentIntent){
+  try {
+    mailgun()
+      .messages()
+      .send(
+        {
+          from: 'Amazona <kumarnitish12553@gmail.com>',
+          to: `${user.name} <${user.email}>`,
+          subject: `New order ${newOrder._id}`,
+          html: payOrderEmailTemplate(newOrder),
+        },
+        (error, body) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log(body);
+          }
+        }
+      );
+  } catch (err) {
+    console.log(err);
+  }
+}
   console.log(newOrder);
 
   let bulkOption = await products.map((item) => {

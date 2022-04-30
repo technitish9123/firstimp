@@ -8,6 +8,7 @@ import { currentUser } from "./functions/auth";
 import {LoadingOutlined} from "@ant-design/icons";
 import Announcement from "./components/homeComponents/Announcement";
 import Footer from "./components/footer/Footer"
+import Contact from "./pages/Contact";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
@@ -118,7 +119,9 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+       
       </Switch>
+      <Route exact path="/contact" component={Contact} />
       <Footer />
     </Suspense>
   );

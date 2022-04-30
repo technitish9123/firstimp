@@ -5,6 +5,7 @@ import { cartReducer } from "./cartReducer";
 import { drawerReducer } from "./drawerReducer";
 import { couponReducer } from "./couponReducer";
 import { pageStateReducer } from "./pageStateReducer";
+import { shippingAddReducer } from "./shippingAddReducer";
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   drawer: drawerReducer,
   coupon: couponReducer,
-  pageState: pageStateReducer
+  pageState: pageStateReducer,
+  shippingAdd:shippingAddReducer
 });
 
 export default rootReducer;

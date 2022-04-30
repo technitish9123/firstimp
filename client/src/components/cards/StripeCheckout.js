@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement ,CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { createPaymentsIntent } from "../../functions/stripe";
 import { Link } from "react-router-dom";
@@ -9,8 +11,10 @@ import laptop from "../../images/laptop.png";
 import { useHistory } from "react-router-dom";
 import { createOrder, emptyUserCart } from "../../functions/user";
 
+
+
 const StripeCheckout = () => {
-  const { user, coupon, pageState } = useSelector((state) => ({ ...state }));
+  const { user, coupon, pageState,shippingAdd } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -26,6 +30,7 @@ const StripeCheckout = () => {
 
   const stripe = useStripe();
   const elements = useElements();
+  
 
   const cartStyle = {
     style: {
@@ -45,58 +50,157 @@ const StripeCheckout = () => {
     },
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setProcessing(true);
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setProcessing(true);
 
-    let payment = stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: e.target.name.value,
-        },
+//     if (!stripe || !elements) return;
+
+//     const  payment = stripe.confirmCardPayment(clientSecret, {
+//       payment_method: {
+//         card: elements.getElement(CardElement),
+//         billing_details: {
+//           name: e.target.name.value,
+//         },
+//       },
+//     });
+// console.log(shippingAdd)
+//     if (payment.error) {
+//       setError(`Payment Failed ${(await payment).error.message}`);
+//       alert.error(payment.error.message);
+//         <p> payment failed</p>
+//       setProcessing(false);
+//     } else {
+//       //here we will recieve successful payment response
+//       console.log((await payment).paymentIntent)
+//       const stripeResponse = (await payment).paymentIntent;
+//       //orders on the admin dashboard
+//       createOrder(stripeResponse, user.token).then((res) => {
+//         //empty cart from everywhere
+
+//         if (res.data.ok) {
+
+//           //remove cart from local storage
+//           if (typeof window !== undefined) localStorage.removeItem("cart");
+//           //remove shipping address from local storage
+         
+
+//           //remove cart from redux
+//           dispatch({
+//             type: "ADD_TO_CART",
+//             payload: [],
+//           });
+//          // remove shipping address from redux
+//          dispatch({
+//           type: "SHIPPING_ADDRESS",
+//           payload: {},
+//         });
+//           //remove cart from database
+//           emptyUserCart(user.token);
+
+//           //coupon set back to false
+
+//           dispatch({
+//             type: "COUPON_APPLIED",
+//             payload: false,
+//           });
+//         }
+//       });
+
+//       console.log(payment);
+//       setError(null);
+//       setProcessing(false);
+//       setSucceeded(true);
+//     }
+//   };
+const order = {
+  shippingAdd,
+  
+};
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setProcessing(true);
+
+  if (!stripe || !elements) return;
+
+  const  payment = await stripe.confirmCardPayment(clientSecret, {
+    payment_method: {
+      card: elements.getElement(CardElement),
+      billing_details: {
+      
+        name: user.name,
+          email: user.email,
+          
       },
-    });
+    },
+  });
+console.log(shippingAdd)
+  if (payment.error) {
+    setError(`Payment Failed ${(await payment).error.message}`);
+    console.log(error);
+      <p> payment failed</p>
+    setProcessing(false);
+  } else {
 
-    if (payment.error) {
-      setError(`Payment Failed ${(await payment).error.message}`);
-      setProcessing(false);
-    } else {
-      //here we will recieve successful payment response
-      console.log((await payment).paymentIntent)
-      const stripeResponse = (await payment).paymentIntent;
-      //orders on the admin dashboard
-      createOrder(stripeResponse, user.token).then((res) => {
-        //empty cart from everywhere
+    if (payment.paymentIntent.status === "succeeded") {
+      order.paymentInfo = {
+        id: payment.paymentIntent.id,
+        status: payment.paymentIntent.status,
+        stripeResponse: (await payment).paymentIntent,
+      }
 
-        if (res.data.ok) {
-          //remove cart from local storage
-          if (typeof window !== undefined) localStorage.removeItem("cart");
+    //here we will recieve successful payment response
+    console.log((await payment).paymentIntent)
+    //const stripeResponse = (await payment).paymentIntent;
+    //orders on the admin dashboard
+    createOrder(order, user.token).then((res) => {
+      //empty cart from everywhere
 
-          //remove cart from redux
-          dispatch({
-            type: "ADD_TO_CART",
-            payload: [],
-          });
+      if (res.data.ok) {
 
-          //remove cart from database
-          emptyUserCart(user.token);
+        //remove cart from local storage
+        if (typeof window !== undefined) localStorage.removeItem("cart");
+        if (typeof window !== undefined) localStorage.removeItem("shippingAddress");
+        //remove shipping address from local storage
+       
 
-          //coupon set back to false
-
-          dispatch({
-            type: "COUPON_APPLIED",
-            payload: false,
-          });
-        }
+        //remove cart from redux
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: [],
+        });
+       // remove shipping address from redux
+       dispatch({
+        type: "SHIPPING_ADDRESS",
+        payload: null,
       });
+        //remove cart from database
+        emptyUserCart(user.token);
 
-      console.log(payment);
-      setError(null);
-      setProcessing(false);
-      setSucceeded(true);
-    }
-  };
+        //coupon set back to false
+
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: false,
+        });
+      }
+    });
+    
+  }
+  else {
+    alert.error("There's some issue while processing payment ");
+  }
+
+    console.log(payment);
+    setError(null);
+    setProcessing(false);
+    setSucceeded(true);
+  }
+ 
+  
+};
 
   const handleChange = async (e) => {
     //show error if the information entered is incorrect and
@@ -107,6 +211,7 @@ const StripeCheckout = () => {
   };
 
   const handleSessionEnd = () => {
+    
     history.push("/user/history");
     dispatch({
       type: "SESSION",

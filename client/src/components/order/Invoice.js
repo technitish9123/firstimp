@@ -42,15 +42,23 @@ const Invoice = ({ order }) => (
         </Table>
 
         <Text style={styles.text}>
+        <Text>Payment Status: {"                         "} { order.paymentIntent.paymentInfo.status} </Text>{"\n"}
           <Text>Date: {"                             "} {new Date(order.createdAt).toLocaleDateString()}</Text>{"\n"}
-          <Text>Order ID: {"                         "} {order.paymentIntent.id} </Text>{"\n"}
+          <Text>Order ID: {"                         "} { order.paymentIntent.paymentInfo.id} </Text>{"\n"}
+         
           <Text>STATUS: {"                           "} {order.orderStatus}</Text>{"\n"}
           <Text>
             Total Paid: {"                           "} {"₹"}
-            {(order.paymentIntent.amount / 100).toLocaleString("en-IN")}
-          </Text>{"\n"}
+
+           
+            {(order.paymentIntent.paymentInfo.stripeResponse.amount / 100).toLocaleString("en-IN")}
+          </Text>{"\n"}{"\n"}
         </Text>
-        <Text>Delivery Address: {"                   "}{order.address}</Text>
+        <Text>Name:{"                         "}{order.paymentIntent.shippingAdd.name}</Text>
+        <Text>Mobile Num:{"                   "}{order.paymentIntent.shippingAdd.mobileNum}</Text>
+        <Text>Email:{"                        "}{order.paymentIntent.shippingAdd.email}</Text>
+        
+        <Text>Delivery Address: {"                   "}{order.paymentIntent.shippingAdd.add}</Text>
         <Text style={styles.footer} >Thank You For Shopping With Us</Text>
       </View>
     </Page>
