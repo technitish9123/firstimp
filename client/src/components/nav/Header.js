@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Search from "../forms/Search";
 import "./nav.css";
+import logo from "../assets/images/firstimp.png"
 
 const { SubMenu, Item } = Menu;
 
@@ -55,12 +56,14 @@ const Header = () => {
           </Badge>
         </Link>
       </Item>
-      {/* <Item key="logo" className="nav_logo_container ">
-        <Link to="/">
-          {" "}
-          <h2 className="nav_logo  ">First Impression</h2>
-        </Link>
-      </Item> */}
+      <Item  className="nav_logo_container">
+        <div className="nav_logo_container">
+          <img className="logo_img" src={logo} alt="logo" />
+         <div className="nav_logo">First Impression</div>
+        </div>
+      </Item>
+
+     
 
       {!user && (
         <Item key="register" icon={<UserAddOutlined />} className="float-right">

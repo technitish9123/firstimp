@@ -3,8 +3,8 @@ const User = require("../models/user");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
-const { mailgun,
-  payOrderEmailTemplate}= require( "../utils.js")
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
 
 exports.userCart = async (req, res) => {
   console.log(req.body.cart);
@@ -135,28 +135,30 @@ exports.createOrder = async (req, res) => {
     userAddress: user.address
   }).save();
 
-  if(paymentIntent){
-  try {
-    mailgun()
-      .messages()
-      .send(
-        {
-          from: 'Amazona <kumarnitish12553@gmail.com>',
-          to: `${user.name} <${user.email}>`,
-          subject: `New order ${newOrder._id}`,
-          html: payOrderEmailTemplate(newOrder),
-        },
-        (error, body) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log(body);
-          }
-        }
-      );
-  } catch (err) {
-    console.log(err);
-  }
+if(paymentIntent){
+  const API_KEY = process.env.MAILGUN_API_KEY;
+const DOMAIN = process.env.MAILGUN_DOMIAN;
+
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
+
+const mailgun = new Mailgun(formData);
+const client = mailgun.client({username: 'api', key: API_KEY});
+
+const messageData = {
+  from: 'Order Confirmation <meher@firstimp.in>',
+  to: newOrder.userEmail,  
+  subject: 'Hello',
+  text: `your order form rs ${paymentIntent.paymentInfo.stripeResponse.amount/100} is successfully placed and it will be soon delivered ${paymentIntent.shippingAdd.name}`
+};
+
+client.messages.create(DOMAIN, messageData)
+ .then((res) => {
+   console.log(res);
+ })
+ .catch((err) => {
+   console.error(err);
+ });
 }
   console.log(newOrder);
 

@@ -20,3 +20,19 @@ export const updateOrderStatus = async (authtoken, orderId, orderStatus) =>
       },
     }
   );
+
+  // sliderImages
+
+  // export const uploadSliderImg = async (img, authtoken) =>
+  // await axios.post(`${process.env.REACT_APP_API}/admin/uploadSliderImage`, img, {
+  //   headers: {
+  //     authtoken,
+  //   },
+  // });
+
+  export const uploadSliderImg = async ( sliderImages) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/admin/uploadSliderImage`,
+    { sliderImages },
+   
+  );

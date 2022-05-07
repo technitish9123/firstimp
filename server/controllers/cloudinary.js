@@ -26,3 +26,26 @@ exports.remove = (req, res) => {
     res.send("ok");
   });
 };
+//slider image upload.
+
+exports.sliderUpload = async (req, res) => {
+  let result = await cloudinary.uploader.upload(req.body.image, {
+    public_id: `${Date.now()}`,
+    response_type: "auto", //setting to jpeg, png
+  });
+
+  res.json({
+    public_id: result.public_id,
+    url: result.secure_url,
+  });
+  console.log(result.secure_url)
+};
+
+exports.sliderRemove = (req, res) => {
+  let image_id = req.body.public_id;
+
+  cloudinary.uploader.destroy(image_id, (err, result) => {
+    if (err) return res.json({ status: false, err });
+    res.send("ok");
+  });
+};

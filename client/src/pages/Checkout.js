@@ -12,7 +12,9 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const Checkout = ({ history }) => {
-  const { user, pageState, shippingAdd } = useSelector((state) => ({ ...state }));
+  const { user, pageState, shippingAdd } = useSelector((state) => ({
+    ...state,
+  }));
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
@@ -23,6 +25,7 @@ const Checkout = ({ history }) => {
   const [name, setName] = useState("");
   const [mobileNum, setMobileNum] = useState("");
   const [email, setEmail] = useState("");
+  const [speacialMessage, setSpeacialMessage] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [discountErr, setDiscountErr] = useState("");
   const [show, setShow] = useState(false);
@@ -36,17 +39,24 @@ const Checkout = ({ history }) => {
   }, []);
 
   //setting shipping adress in store
-  let shippingaddd={name:name, mobileNum:mobileNum, email:email, add:address};
-  const handleShippingAdd=()=>{
-    if (typeof window!== undefined){
-      localStorage.setItem("shippingAddress", JSON.stringify(shippingaddd))
+  let shippingaddd = {
+    name: name,
+    mobileNum: mobileNum,
+    email: email,
+    add: address,
+    specialMessage: speacialMessage,
+  };
+  const handleShippingAdd = () => {
+    if (typeof window !== undefined) {
+      localStorage.setItem("shippingAddress", JSON.stringify(shippingaddd));
     }
     dispatch({
       type: "SHIPPING_ADDRESS",
-      payload:shippingaddd
+      payload: shippingaddd,
     });
-   
-  }
+    setAddressSaved(true);
+    toast.success("Address Saved Successully");
+  };
 
   const handleEmptyCart = () => {
     if (typeof window !== undefined) {
@@ -69,15 +79,15 @@ const Checkout = ({ history }) => {
     }, 5000);
   };
 
-  const saveAddressToDb = () => {
-    saveUserAddress(user.token,  address).then((res) => {
-      if (res.data.ok) {
-        
-        setAddressSaved(true);
-        toast.success("Address Saved Successully");
-      }
-    });
-  };
+  // const saveAddressToDb = () => {
+  //   saveUserAddress(user.token,  address).then((res) => {
+  //     if (res.data.ok) {
+
+  //       setAddressSaved(true);
+  //       toast.success("Address Saved Successully");
+  //     }
+  //   });
+  // };
 
   const applyDiscountCoupon = () => {
     applyDiscount({ coupon }, user.token).then((res) => {
@@ -134,7 +144,7 @@ const Checkout = ({ history }) => {
   return (
     <div className="row">
       <div className="col-md-6 p-5">
-      <h4>Shipping Address</h4>
+        <h4>Shipping Address</h4>
         <div className="p-2 mt-2">
           <Input
             type="text"
@@ -142,15 +152,18 @@ const Checkout = ({ history }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Name"
+            maxlength="30"
+            required
           />
         </div>
         <div className="p-2 mt-2">
           <Input
             type="Number"
             className=""
-             value={mobileNum}
+            value={mobileNum}
             onChange={(e) => setMobileNum(e.target.value)}
             placeholder="Mobile Number"
+            required
           />
         </div>
         <div className="p-2 mt-2 mb-2">
@@ -160,20 +173,46 @@ const Checkout = ({ history }) => {
             //  value={}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Id"
+            required
           />
         </div>
-     
+        <hr />
+        
+        <h6>Special Instructions: </h6>
+        <div className="p-2 mt-2 mb-2">
+          <Input
+            type="text"
+            className=""
+            //  value={}
+            onChange={(e) => setSpeacialMessage(e.target.value)}
+            placeholder="Your special message if any"
+            required="true"
+            maxlength="50"
+          />
+        </div>
+        <hr />
+
         {/* <ReactQuill placeholder="address" theme="snow" value={address} onChange={setAddress} /> */}
-       <textarea   onChange={(e) => setAddress(e.target.value)} />
-{console.log(address)}
-        <button
+        <textarea
+          cols="90"
+          required
+          placeholder="Enter Your Address"
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        {console.log(address)}
+        {/* <button
           className="btn btn-secondary btn-raised mt-2 btn-block"
           onClick={saveAddressToDb}
         >
           Save Delivery Address
+        </button> */}
+        <button
+          className="btn btn-secondary btn-raised mt-2 btn-block"
+          onClick={handleShippingAdd}
+        >
+          Save Delivery Address
         </button>
-
-        <button onClick={handleShippingAdd}>dispatch shipping adress</button>
+        {/* <button onClick={handleShippingAdd}>dispatch shipping adress</button> */}
         <hr />
         <h4>Got Coupon?</h4>
         <br />

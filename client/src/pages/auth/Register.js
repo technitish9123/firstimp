@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import Recaptcha from "react-recaptcha";
 
 const Register = ({ history }) => {
   const [email, setEmail] = useState("");
-
+  const [isVerified, setiIsVerified] = useState(false)
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
@@ -30,9 +31,19 @@ const Register = ({ history }) => {
     setEmail("");
   };
 
+  const RecaptchaLoaded=()=>{
+      console.log("captcha loaded")
+  }
+  const verifyCallback=(response)=>{
+    if(response){
+      setiIsVerified(true);
+    }
+  }
+
   const registerForm = () => (
     <form onSubmit={handleSubmit}>
       <input
+      required
         type="email"
         className="form-control"
         value={email}
@@ -42,7 +53,14 @@ const Register = ({ history }) => {
       />
 
       <br />
-      <button type="submit" className="btn btn-raised">
+      <Recaptcha
+    sitekey="6LecT7QfAAAAACAPPOOhNf_H1SKFCwhkMRhMjdEa"
+    render="explicit"
+    onloadCallback={RecaptchaLoaded}
+    verifyCallback={verifyCallback}
+  /> <br />
+  
+      <button type="submit" className="btn btn-raised "  disabled={!isVerified}>
         Register
       </button>
     </form>
@@ -54,6 +72,8 @@ const Register = ({ history }) => {
         <div className="col-md-6 offset-md-3">
           <h4>Register</h4>
           {registerForm()}
+
+          
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeftOutlined,ArrowRightOutlined} from "@material-ui/icons"
 import styled from "styled-components";
 import { sliderItems } from "../data";
@@ -56,7 +56,7 @@ padding:5px 5px;
     width: 100%;
 `
 const Image = styled.img`
-    object-fit: contain;
+    object-fit: cover;
     height: 100%;
     width: 100%;
  `
@@ -80,7 +80,7 @@ const Image = styled.img`
 //   cursor: pointer;
 // `
 ;
-
+const delay = 2500;
 
 const Slider = () => {
  const [slideIndex, setSlideIndex] = useState(0);
@@ -90,6 +90,19 @@ const Slider = () => {
      }
      else setSlideIndex(slideIndex<2? slideIndex+1:0);
  }
+ useEffect(() => {
+   setTimeout(
+    () =>
+    setSlideIndex((prevIndex) =>
+      prevIndex === sliderItems.length - 1 ? 0 : prevIndex + 1
+    ),
+  delay
+);
+
+   return () => {};
+ 
+ }, [slideIndex])
+ 
  console.log(slideIndex);
     return (
        <Container>
@@ -113,6 +126,9 @@ const Slider = () => {
                <ArrowRightOutlined />
            </Arrow>
        </Container>
+
+
+
     )
 }
 

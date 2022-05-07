@@ -45,6 +45,11 @@ const AdminNav = () => (
           Password
         </Link>
       </li>
+      <li className="nav-item">
+        <Link to="/admin/sliderimageupload" className="nav-link">
+          Slider Image
+        </Link>
+      </li>
     </ul>
   </nav>
 );

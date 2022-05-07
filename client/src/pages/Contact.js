@@ -49,8 +49,15 @@ const Contact = () => {
               <div>
                 <AiOutlineMail className="contact-icon" />
               </div>
-              <div>meher@firstimp.in</div>
+              <div>meher@firstimp.in <br /></div>
+              
+            </div>
+            <div>
+              <div>
+                <AiOutlineMail className="contact-icon" />
+              </div>
               <div>firstimp777@gmail.com</div>
+              
             </div>
           </div>
           <br />

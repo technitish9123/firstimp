@@ -9,6 +9,7 @@ import {LoadingOutlined} from "@ant-design/icons";
 import Announcement from "./components/homeComponents/Announcement";
 import Footer from "./components/footer/Footer"
 import Contact from "./pages/Contact";
+import SliderImageAdd from "./pages/admin/SliderImageAdd";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
@@ -103,6 +104,7 @@ const App = () => {
         <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <AdminRoute exact path="/admin/products" component={AllProducts} />
+        <AdminRoute exact path="/admin/sliderimageupload" component={SliderImageAdd} />
         <AdminRoute
           exact
           path="/admin/product/:slug"

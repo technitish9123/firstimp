@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Invoice from "../../components/order/Invoice";
-import { Select } from "antd";
+import { Col, Select, Row } from "antd";
+import moment from "moment";
+
 const { Option } = Select;
 
 const statusOptions = [
@@ -27,7 +29,6 @@ const Orders = ({ orders, handleStatusChange }) => {
           <th scope="col">Color</th>
           <th scope="col">Quantity</th>
           <th scope="col">Shipping</th>
-         
         </tr>
       </thead>
 
@@ -35,14 +36,13 @@ const Orders = ({ orders, handleStatusChange }) => {
         {order.products.map((p, i) => (
           <tr key={i}>
             <td>
-             
               <strong>{p.product.title}</strong>
             </td>
             <td>{p.product.price}</td>
             <td>{p.product.brand}</td>
             <td>{p.product.color}</td>
             <td>{p.count}</td>
-           
+
             <td>
               {p.product.shipping === "Yes" ? (
                 <CheckCircleOutlined style={{ color: "green" }} />
@@ -53,7 +53,6 @@ const Orders = ({ orders, handleStatusChange }) => {
           </tr>
         ))}
       </tbody>
-    
     </table>
   );
 
@@ -72,12 +71,62 @@ const Orders = ({ orders, handleStatusChange }) => {
       <div key={order._id}>
         <div className="m-5 p-3 card">
           {/* <ShowPaymentInfo order={order} /> */}
-          <div className=" p-3">
-          <div>Name: {order.paymentIntent.shippingAdd.name}</div> <br/>
-            <div>Mobile Number: {order.paymentIntent.shippingAdd.mobileNum}</div> <br/>
-            <div>Email: {order.paymentIntent.shippingAdd.email}</div><br/>
-            <div>Shipping Address: {order.paymentIntent.shippingAdd.add}</div> <br/>
-          </div>
+
+          <Row>
+            <Col lg={12}>
+              <div className=" p-3 ">
+                <p style={{ fontSize: "25px" }}>Shipping Info:</p>
+                <div>Name: {order.paymentIntent.shippingAdd.name}</div> <br />
+                <div>
+                  Mobile Number: {order.paymentIntent.shippingAdd.mobileNum}
+                </div>{" "}
+                <br />
+                <div>Email: {order.paymentIntent.shippingAdd.email}</div>
+                <br />
+                <div>
+                  Shipping Address: {order.paymentIntent.shippingAdd.add}
+                </div>{" "}
+                <br />
+                {order.paymentIntent.shippingAdd.specialMessage ? (
+                  <div>
+                    Special message:{" "}
+                    {order.paymentIntent.shippingAdd.specialMessage}
+                  </div>
+                ) : (
+                  <div> </div>
+                )}
+                {/* <div>Special message: {order.paymentIntent.shippingAdd.specialMessage}</div> <br/> */}
+              </div>
+            </Col>
+            <Col lg={12}>
+              <div className=" p-3 ">
+                <p style={{ fontSize: "25px" }}>Payment Info:</p>
+                <div>
+                  Status:{" "}
+                  {order.paymentIntent.paymentInfo.stripeResponse.status}
+                </div>{" "}
+                <br />
+                <div>
+                  PaymentID: {order.paymentIntent.paymentInfo.stripeResponse.id}
+                </div>{" "}
+                <br />
+                <div>
+                  Amount:{" "}
+                  {order.paymentIntent.paymentInfo.stripeResponse.amount / 100}
+                </div>{" "}
+                <br />
+                <div>
+                  Date:{" "}
+                  {moment
+                    .unix(
+                      order.paymentIntent.paymentInfo.stripeResponse.created
+                    )
+                    .format("MMMM Do YYYY, h:mm:ss a")}
+                </div>{" "}
+                <br />
+              </div>
+            </Col>
+          </Row>
           {showOrderInTable(order)}
           <div className="row">
             <div className="col">
@@ -90,10 +139,11 @@ const Orders = ({ orders, handleStatusChange }) => {
                     handleStatusChange(order._id, value);
                   }}
                 >
-                  {statusOptions.map((op) => <Option value={op} key={op} >{op}</Option> )}
-                    
-                    
-                  
+                  {statusOptions.map((op) => (
+                    <Option value={op} key={op}>
+                      {op}
+                    </Option>
+                  ))}
                 </Select>
               </div>
             </div>

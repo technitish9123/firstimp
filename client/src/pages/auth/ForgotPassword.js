@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import Recaptcha from "react-recaptcha";
 
 const ForgotPassword = ({ history }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [isVerified, setiIsVerified] = useState(false)
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
@@ -35,6 +36,15 @@ const ForgotPassword = ({ history }) => {
         console.log("ERROR MSG IN FORGOT PASSWORD", error);
       });
   };
+  const RecaptchaLoaded=()=>{
+    console.log("captcha loaded")
+}
+const verifyCallback=(response)=>{
+  if(response){
+    setiIsVerified(true);
+  }
+}
+
 
   return (
     <div className="container col-md-6 offset-md-3 p-5">
@@ -46,6 +56,7 @@ const ForgotPassword = ({ history }) => {
 
       <form onSubmit={handleSubmit}>
         <input
+        required
           type="email"
           className="form-control"
           value={email}
@@ -54,7 +65,14 @@ const ForgotPassword = ({ history }) => {
           autoFocus
         />
         <br />
-        <button className="btn btn-raised" disabled={!email}>
+        <Recaptcha
+    sitekey="6LecT7QfAAAAACAPPOOhNf_H1SKFCwhkMRhMjdEa"
+    render="explicit"
+    onloadCallback={RecaptchaLoaded}
+    verifyCallback={verifyCallback}
+  />
+  <br />
+        <button className="btn btn-raised" disabled={!email&& !isVerified} >
           Submit
         </button>
       </form>
